@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Cabspot.Models.taxistas>
+
+@{
+    ViewBag.controller = "Taxistas";
+    ViewBag.action = "Listado Taxistas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+
+<p>
+    @Html.ActionLink("Nuevo Taxista", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table id="example" class="table table-striped responsive-utilities jambo_table">
+    <thead>
+        <tr class="headings">
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.personas.nombres)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.personas.apellidos)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.codigoTaxista)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.rating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.personas.nombres)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.personas.apellidos)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.codigoTaxista)
+                </td>
+                @* Rating *@
+                <td class="text-center">
+                    <p class="ratings">
+                       @for (int i = 1; i <= 5; i++)
+                       {
+                           if (i <= item.rating)
+                           {
+                             <span class="fa fa-star"></span>
+                           }
+                           else
+                           {
+
+                            <span class="fa fa-star-o"></span>
+                           }
+                       }
+                    </p>
+                </td>
+                @* Fin Rating *@
+                <td class="text-center">
+                    @Html.ActionLink(" ", "Edit", "Taxistas", new { id = item.idTaxista }, new { @class = "fa fa-edit" }) |
+                    @Html.ActionLink(" ", "Details", "Taxistas", new { id = item.idTaxista }, new { @class = "fa fa-eye" }) |
+                    @Html.ActionLink(" ", "Delete", "Taxistas", new { id = item.idTaxista }, new { @class = "fa fa-trash" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

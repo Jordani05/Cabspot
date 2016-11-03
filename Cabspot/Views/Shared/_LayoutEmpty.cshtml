@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Cabspot";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/admin")*@
+    @Styles.Render("~/Content/gentella")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+
+    @*<script>
+            NProgress.start();
+        </script>*@
+</head>
+
+@* Body *@
+<body style="background:#F7F7F7;">
+    <!-- page content -->
+    <div class="">
+
+        <a class="hiddenanchor" id="toregister"></a>
+        <a class="hiddenanchor" id="tologin"></a>
+
+        <div id="wrapper">
+            @RenderBody()
+        </div>
+    </div>
+
+    <div id="custom_notifications" class="custom-notifications dsp_none">
+        <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
+        <div class="clearfix"></div>
+        <div id="notif-group" class="tabbed_notifications"></div>
+    </div>
+
+
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/admin")*@
+    @Scripts.Render("~/bundles/gentella")
+    @Scripts.Render("~/bundles/gauge")
+    @Scripts.Render("~/bundles/chart")
+    @Scripts.Render("~/bundles/progress")
+    @Scripts.Render("~/bundles/icheck")
+    @Scripts.Render("~/bundles/daterangepicker")
+    @Scripts.Render("~/bundles/flot")
+    @Scripts.Render("~/bundles/worldmap")
+    @Scripts.Render("~/bundles/notify")
+
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>

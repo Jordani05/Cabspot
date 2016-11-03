@@ -1,0 +1,130 @@
+﻿@model IEnumerable<Cabspot.Models.vehiculos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.condicionvehiculos.condicionVehiculo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estadovehiculos.estadoVehiculo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipovehiculos.tipoVehiculo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idTaxista)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.chasis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.placa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.marca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modelo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.serie)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.anio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.color)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.unidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cantidadAsientos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaRegistro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.registradoPor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaUltimaModificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modificadoPor)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.condicionvehiculos.condicionVehiculo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estadovehiculos.estadoVehiculo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipovehiculos.tipoVehiculo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.idTaxista)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.chasis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.placa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.marca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modelo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.serie)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.anio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.color)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.unidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cantidadAsientos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaRegistro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.registradoPor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaUltimaModificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modificadoPor)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idVehiculo }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idVehiculo }) |
+            @Html.ActionLink("Inactivar", "Inactivar", new { id=item.idVehiculo })
+        </td>
+    </tr>
+}
+
+</table>

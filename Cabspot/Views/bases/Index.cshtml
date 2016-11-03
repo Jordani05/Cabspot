@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Cabspot.Models.bases>
+
+@{
+    ViewBag.controller = "Bases";
+    ViewBag.action = "Listado Bases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //lanzando notificacion de exito
+    if (TempData["success"] != null)
+    {
+        <script type="text/javascript">
+            var permanotice, tooltip, _alert;
+            $(function () {
+                new PNotify({
+                    title: "Exito",
+                    type: "success",
+                    text: "Exito! se ha agregado una base",
+                    nonblock: {
+                        nonblock: true
+                    },
+                    before_close: function (PNotify) {
+                        // You can access the notice's options with this. It is read only.
+                        //PNotify.options.text;
+
+                        // You can change the notice's options after the timer like this:
+                        PNotify.update({
+                            title: PNotify.options.title + " - Enjoy your Stay",
+                            before_close: null
+                        });
+                        PNotify.queueRemove();
+                        return false;
+                    }
+                });
+            });
+        </script>
+    }
+}
+
+
+<p>
+    @Html.ActionLink("Crear Nueva", "Create", null,new {@class = "btn btn-primary"})
+</p>
+<table id="example" class="table table-striped responsive-utilities jambo_table">
+   <thead>
+             <tr class="headings">
+                 <th class="text-center">
+                     @Html.DisplayNameFor(model => model.nombreBase)
+                 </th>
+                 <th class="text-center">
+                     @Html.DisplayNameFor(model => model.contactos.telefonoTrabajo)
+                 </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.contactos.telefonoMovil)
+                </th>
+                 <th class="text-center">
+                     @Html.DisplayNameFor(model => model.direcciones.ciudad)
+                 </th>
+                 <th class="text-center">
+                     @Html.DisplayNameFor(model => model.direcciones.municipios.provincias.nombreProvincia)
+                 </th>
+                <th></th>
+            </tr>
+   </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.nombreBase)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.contactos.telefonoTrabajo)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.contactos.telefonoMovil)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.direcciones.ciudad)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.direcciones.municipios.provincias.nombreProvincia)
+                </td>
+                <td class="text-center">
+                    @Html.ActionLink(" ", "Edit", "Bases", new { id = item.idBase }, new { @class = "fa fa-edit" }) |
+                    @Html.ActionLink(" ", "Details", "Bases", new { id = item.idBase }, new { @class = "fa fa-eye" }) |
+                    @Html.ActionLink(" ", "Delete", "Bases", new { id = item.idBase }, new { @class = "fa fa-trash" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,148 @@
+﻿@model Cabspot.Models.taxistas
+
+
+@using (Html.BeginForm("AgregarVehiculo","taxistas", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.idTaxista)
+    @Html.HiddenFor(model => model.codigoTaxista)
+    
+   
+    <div class="form-horizontal form-label-left">
+        <span class="section">Información del Vehículo</span>
+        @* Chasis *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.chasis, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @Html.EditorFor(model => model.vehiculo.chasis, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.vehiculo.chasis, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Placa *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.placa, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @Html.EditorFor(model => model.vehiculo.placa, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.vehiculo.placa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Año  *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.anio, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-9 col-sm-9">
+                <select name="vehiculo.anio" id="car-years" class="select2_single form-control"></select>
+                @Html.ValidationMessageFor(model => model.vehiculo.anio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Marca *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.marca, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-9 col-sm-9">
+                @*@Html.EditorFor(model => model.vehiculo.marca, new { htmlAttributes = new { @class = "form-control" } })*@
+                <select name="vehiculo.marca" id="car-makes" class="select2_single"></select>
+                @Html.ValidationMessageFor(model => model.vehiculo.marca, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Modelo *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.modelo, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @*@Html.EditorFor(model => model.vehiculo.modelo, new { htmlAttributes = new { @class = "form-control" } })*@
+                <select name="vehiculo.modelo" id="car-models" class="select2_single"></select>
+                @Html.ValidationMessageFor(model => model.vehiculo.modelo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Serie *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.serie, htmlAttributes: new { @class = "control-label" })
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @*@Html.EditorFor(model => model.vehiculo.serie, new { htmlAttributes = new { @class = "form-control" } })*@
+                <select name="vehiculo.serie" id="car-model-trims" class="select2_single"></select> 
+                @Html.ValidationMessageFor(model => model.vehiculo.serie, "", new { @class = "text-danger" })
+            </div>
+        </div>        
+        @* Color *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.color, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-3 col-sm-3 input-group demo2">
+                @Html.EditorFor(model => model.vehiculo.color, new { htmlAttributes = new { @class = "form-control" } })<span class="input-group-addon"><i></i></span>
+                @Html.ValidationMessageFor(model => model.vehiculo.anio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* UNIDAD *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.unidad, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @Html.EditorFor(model => model.vehiculo.unidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.vehiculo.unidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Tipo Vehiculo *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.idTipoVehiculo, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @Html.DropDownListFor(model => model.vehiculo.tipoSeleccionado, Model.vehiculo.listaTipo, "", new { @class = "form-control select2_single" })
+                @Html.ValidationMessageFor(model => model.vehiculo.idTipoVehiculo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Estado Vehiculo *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.idEstadoVehiculo, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @Html.DropDownListFor(model => model.vehiculo.estadoSeleccionado, Model.vehiculo.listaEstado, "", new { @class = "form-control select2_single" })
+                @Html.ValidationMessageFor(model => model.vehiculo.idEstadoVehiculo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Condición Vehiculo *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.idCondicionVehiculo, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @Html.DropDownListFor(model => model.vehiculo.condicionSeleccionada, Model.vehiculo.listaCondicion, "", new { @class = "form-control select2_single" })
+                @Html.ValidationMessageFor(model => model.vehiculo.idCondicionVehiculo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Cantidad Asientos *@
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3">
+                @Html.LabelFor(model => model.vehiculo.cantidadAsientos, htmlAttributes: new { @class = "control-label" }) <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6">
+                @Html.EditorFor(model => model.vehiculo.cantidadAsientos, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.vehiculo.cantidadAsientos, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-10">
+                <button type="submit" class="btn btn-success" name="comando" value="agregarVehiculo">Agregar Vehículo</button>
+            </div>
+        </div>
+    </div>    
+    
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

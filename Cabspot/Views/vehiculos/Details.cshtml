@@ -1,0 +1,155 @@
+﻿@model Cabspot.Models.vehiculos
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>vehiculos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.condicionvehiculos.condicionVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.condicionvehiculos.condicionVehiculo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estadovehiculos.estadoVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estadovehiculos.estadoVehiculo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipovehiculos.tipoVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipovehiculos.tipoVehiculo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idTaxista)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idTaxista)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.chasis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.chasis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.placa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.placa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.marca)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.marca)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modelo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modelo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.serie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.serie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.anio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.anio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.color)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.color)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cantidadAsientos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cantidadAsientos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaRegistro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaRegistro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.registradoPor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.registradoPor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaUltimaModificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaUltimaModificacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modificadoPor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modificadoPor)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idVehiculo }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

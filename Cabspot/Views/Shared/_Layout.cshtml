@@ -1,0 +1,565 @@
+﻿@{
+    
+    ViewBag.Title = "Cabspot";
+   // var usuario = "Bertoldo Edmundo Melones y Dieta";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")    
+    @*@Styles.Render("~/Content/admin")*@
+    @Styles.Render("~/Content/gentella")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">      
+
+    
+    
+
+    <script>
+    @* Obteniendo todos los paises via WS *@
+    var uri = '//restcountries.eu/rest/v1/all';
+    $(document).ready(function () {
+        // Send an AJAX request
+        $.getJSON(uri).done(function (data) {
+            var items = '<option value="" selected></option>';
+            $.each(data, function (i, item) {
+                items += "<option value='" + item.translations.es + "'>" + item.translations.es + "</option>";
+            });
+            $('#nacionalidad').html(items);
+        });
+    });
+
+    //Habilitando y poblando campos de municipio
+    $(function (ready) { /* DOM ready */
+        $('#provincia').change(function () {
+            $.getJSON('/Bases/ListaMunicipios/' + $('#provincia').val(), function (data) {
+                var items = '<option value="" selected></option>';
+                $.each(data, function (i, municipio) {
+                    items += "<option value='" + municipio.Value + "'>" + municipio.Text + "</option>";
+                });
+                $('#municipio').html(items);
+            });
+            document.getElementById("municipio").disabled = false;
+        });
+    });
+
+    
+    </script>
+
+    
+
+
+
+    @*//car query api*@
+    <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
+    <script type="text/javascript">
+    $(document).ready(
+    function () {
+        //Create a variable for the CarQuery object.  You can call it whatever you like.
+        var carquery = new CarQuery();
+
+        //Run the carquery init function to get things started:
+        carquery.init();
+
+        //Optionally, you can pre-select a vehicle by passing year / make / model / trim to the init function:
+        //carquery.init('2000', 'dodge', 'Viper', 11636);
+
+        //Optional: Pass sold_in_us:true to the setFilters method to show only US models.
+        carquery.setFilters({ sold_in_us: true });
+
+        //Optional: initialize the year, make, model, and trim drop downs by providing their element IDs
+        carquery.initYearMakeModelTrim('car-years', 'car-makes', 'car-models', 'car-model-trims');
+
+        //Optional: set the onclick event for a button to show car data.
+        $('#cq-show-data').click(function () { carquery.populateCarData('car-model-data'); });
+
+        //Optional: initialize the make, model, trim lists by providing their element IDs.
+        carquery.initMakeModelTrimList('make-list', 'model-list', 'trim-list', 'trim-data-list');
+
+        //Optional: set minimum and/or maximum year options.
+        carquery.year_select_min = 1960;
+        carquery.year_select_max = new Date().getFullYear();
+
+        //Optional: initialize search interface elements.
+        //The IDs provided below are the IDs of the text and select inputs that will be used to set the search criteria.
+        //All values are optional, and will be set to the default values provided below if not specified.
+        var searchArgs =
+        ({
+            body_id: "cq-body"
+           , default_search_text: "Keyword Search"
+           , doors_id: "cq-doors"
+           , drive_id: "cq-drive"
+           , engine_position_id: "cq-engine-position"
+           , engine_type_id: "cq-engine-type"
+           , fuel_type_id: "cq-fuel-type"
+           , min_cylinders_id: "cq-min-cylinders"
+           , min_mpg_hwy_id: "cq-min-mpg-hwy"
+           , min_power_id: "cq-min-power"
+           , min_top_speed_id: "cq-min-top-speed"
+           , min_torque_id: "cq-min-torque"
+           , min_weight_id: "cq-min-weight"
+           , min_year_id: "cq-min-year"
+           , max_cylinders_id: "cq-max-cylinders"
+           , max_mpg_hwy_id: "cq-max-mpg-hwy"
+           , max_power_id: "cq-max-power"
+           , max_top_speed_id: "cq-max-top-speed"
+           , max_weight_id: "cq-max-weight"
+           , max_year_id: "cq-max-year"
+           , search_controls_id: "cq-search-controls"
+           , search_input_id: "cq-search-input"
+           , search_results_id: "cq-search-results"
+           , search_result_id: "cq-search-result"
+           , seats_id: "cq-seats"
+           , sold_in_us_id: "cq-sold-in-us"
+        });
+        carquery.initSearchInterface(searchArgs);
+
+        //If creating a search interface, set onclick event for the search button.  Make sure the ID used matches your search button ID.
+        $('#cq-search-btn').click(function () { carquery.search(); });
+    });
+    </script>
+
+
+</head>
+
+@* Body *@
+<body class="nav-md">
+    <div class="container body">
+
+        @* Sidebar *@
+        <div class="main_container">
+        
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0; height:100px">
+                        @*<a href="@Url.Action("Index","Home")" class="site_title"><i class="fa fa-circle"></i> <span>CabSpot</span></a>*@
+                        <a href="@Url.Action("Index","Home")" class="site_title"><img src="~/Content/images/logodashboard.png"/></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- menu prile quick info -->
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div class="profile">
+                            <div class="profile_pic">
+                                <img id="fotoUsuario" alt="..." class="img-circle profile_img" />
+                            </div>
+                            <div class="profile_info">
+                                <span>Bienvenido,</span>
+                                <h2 id="nombreUsuario"> </h2> @*-@User.Identity.Name</h2>    *@
+                            </div>
+                        </div>
+                    }                    
+                    <!-- /menu prile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            @*<h3>General</h3>*@
+                            <ul class="nav side-menu">
+                                @* Inicio *@
+                                <li>
+                                    <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Inicio</a>
+                                </li>
+
+                                @* Bases *@
+                                @if (User.IsInRole("Developer"))
+                                {
+                                    <li>
+                                        <a><i class="fa fa-building"></i> Bases <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu" style="display: none">
+                                            <li>
+                                                <a href="@Url.Action("Index","Bases")">Listado Bases</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Create","Bases")">Agregar Base</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+
+                                @* Empleados *@
+                                <li>
+                                    <a><i class="fa fa-users"></i> Empleados <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li>
+                                            <a href="@Url.Action("Index", "Empleados")">Listado Empleados</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Create", "Empleados")">Agregar Empleado</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @* Taxistas *@
+                                <li>
+                                    <a><i class="fa fa-taxi"></i> Taxistas <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li>
+                                            <a href="@Url.Action("Index", "Taxistas")">Listado Taxistas</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Create", "Taxistas")">Agregar Taxista</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav class="" role="navigation">
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">                                    
+                                    <img id="fotoUsuario2" alt="..."/>  <span id="nombreUsuario2"></span>
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
+                                    <li>
+                                        <a href="javascript:;">  Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <span class="badge bg-red pull-right">50%</span>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">Help</a>
+                                    </li>
+                                    <li>
+                                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "LogOffForm" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <a href="#" id="salir"  class="fa fa-sign-out pull-right">  Salir</a>
+                                            <script type="text/javascript">
+                                                $("#salir").click(function () {
+                                                    if (confirm("¿Está seguro que quiere salir?")) {
+                                                        document.getElementById('LogOffForm').submit();
+                                                    } else {
+                                                        return false;
+                                                    }
+                                                });
+                                            </script>
+                                        }                                      
+                                    </li>
+                                </ul>
+                            </li>
+                            <li role="presentation" class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="badge bg-green">6</span>
+                                </a>
+                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
+                                    <li>
+                                        <a>
+                                            <span class="image">
+                                                @*<img src="images/img.jpg" alt="Profile Image" />*@
+                                            </span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <div class="text-center">
+                                            <a>
+                                                <strong><a href="inbox.html">See All Alerts</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>@ViewBag.controller</h3>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>@ViewBag.action</h2>                                    
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    @RenderBody()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                        <!-- footer content -->
+                        <footer>
+                            <div>
+                                <p class="pull-right">
+                                    <span class="fa fa-code"></span> Proyecto Final ISC por Jordani Rozón & Josué Martínez
+                                    <span class="lead"> <i class="fa fa-circle"></i> Cabspot</span>
+                                </p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </footer>
+                        <!-- /footer content -->
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+            <div id="custom_notifications" class="custom-notifications dsp_none">
+                <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
+                <div class="clearfix"></div>
+                <div id="notif-group" class="tabbed_notifications"></div>
+            </div>
+
+
+
+
+            @Scripts.Render("~/bundles/bootstrap")
+            @*@Scripts.Render("~/bundles/admin")*@
+            @Scripts.Render("~/bundles/gentella")
+           @* @Scripts.Render("~/bundles/gauge")*@
+            @Scripts.Render("~/bundles/chart")
+            @Scripts.Render("~/bundles/progress")
+            @Scripts.Render("~/bundles/icheck")
+            @Scripts.Render("~/bundles/daterangepicker")
+            @Scripts.Render("~/bundles/flot")
+            @Scripts.Render("~/bundles/worldmap")
+            @Scripts.Render("~/bundles/notify")
+
+            @RenderSection("scripts", required: false)
+
+    <!-- /datepicker -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#single_cal1').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_1"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+            $('#single_cal2').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_2"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+            $('#single_cal3').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_3"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+            $('#single_cal4').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_4"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#reservation').daterangepicker(null, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+        });
+    </script>
+    <!-- /datepicker -->
+
+    @* Wizard form -------------------------------------------------------------------------------------------------------*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Smart Wizard
+            $('#wizard').smartWizard();
+
+            function onFinishCallback() {
+                $('#wizard').smartWizard('showMessage', 'Finish Clicked');
+                //alert('Finish Clicked');
+            }
+        });
+
+        $(document).ready(function () {
+            // Smart Wizard
+            $('#wizard_verticle').smartWizard({
+                transitionEffect: 'slide'
+            });
+
+        });
+
+    </script>
+    
+
+
+
+    @* Spin when submit *@
+    <div id="loading">
+        <div id="loadingcontent">
+            <p id="loadingspinner">
+                Por favor espere, estamos procesando...
+            </p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#formulario').submit(function () {
+            $("#loading").fadeIn();
+            var opts = {
+                lines: 12, // The number of lines to draw
+                length: 7, // The length of each line
+                width: 4, // The line thickness
+                radius: 10, // The radius of the inner circle
+                color: '#000', // #rgb or #rrggbb
+                speed: 1, // Rounds per second
+                trail: 60, // Afterglow percentage
+                shadow: false, // Whether to render a shadow
+                hwaccel: false // Whether to use hardware acceleration
+            };
+            var target = document.getElementById('loading');
+            var spinner = new Spinner(opts).spin(target);
+            $("#loading").delay(5000)
+            $("#loading").fadeOut();
+        });
+    </script>
+
+    @* Datatables *@
+    <script>
+    $(document).ready(function () {
+        $('input.tableflat').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+    });
+
+    var asInitVals = new Array();
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "oLanguage": {
+                "sSearch": "Buscar:"
+            },
+            "aoColumnDefs": [
+                {
+                    'bSortable': false,
+                    'aTargets': [0]
+                } //disables sorting for column one
+            ],
+            'iDisplayLength': 12,
+            "sPaginationType": "full_numbers",
+            "dom": 'T<"clear">lfrtip',
+            "tableTools": {
+                "sSwfPath": "<?php echo base_url('assets2/js/Datatables/tools/swf/copy_csv_xls_pdf.swf'); ?>"
+            }
+        });
+        $("tfoot input").keyup(function () {
+            /* Filter on the column based on the index of this element's parent <th> */
+            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+        });
+        $("tfoot input").each(function (i) {
+            asInitVals[i] = this.value;
+        });
+        $("tfoot input").focus(function () {
+            if (this.className == "search_init") {
+                this.className = "";
+                this.value = "";
+            }
+        });
+        $("tfoot input").blur(function (i) {
+            if (this.value == "") {
+                this.className = "search_init";
+                this.value = asInitVals[$("tfoot input").index(this)];
+            }
+        });
+    });
+    </script>
+
+    <!-- select2 -->
+    <script>
+        $(document).ready(function () {
+            $(".select2_single").select2({
+                placeholder: "Elija una opción",
+                width: 'resolve'
+                //allowClear: true
+            });
+            $(".select2_group").select2({});
+            $(".select2_multiple").select2({
+                maximumSelectionLength: 4,
+                placeholder: "With Max Selection limit 4",
+                allowClear: true
+            });
+        });
+    </script>
+    <!-- /select2 -->
+
+    @* Cargando nombre de usuario y foto  *@
+    <script type="text/javascript">
+        $.getJSON('/empleados/getUserData/' + '@User.Identity.Name.ToString()', function (data) {
+            document.getElementById("nombreUsuario").innerHTML = data.nombreCompleto;
+            document.getElementById("nombreUsuario2").innerHTML = data.nombre;
+            document.getElementById("fotoUsuario").src = data.foto;
+            document.getElementById("fotoUsuario2").src = data.foto;
+        });
+    </script>
+  
+    <!--Imagen alternativa en error-->
+    <script>
+        $(document).ready(function () {
+            $(".profile_img").error(function () {
+                $(this).attr('src', '/Content/images/user.png');
+            });
+        });
+    </script>
+</body>
+
+</html>

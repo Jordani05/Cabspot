@@ -1,0 +1,43 @@
+﻿@model Cabspot.Models.bases
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>bases</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.contactos.telefonoMovil)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contactos.telefonoMovil)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.direcciones.numeroPuerta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.direcciones.numeroPuerta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreBase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreBase)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idBase }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
